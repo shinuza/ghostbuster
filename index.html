@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Waterfall</title>
+    <style>
+      #movie { overflow-x: scroll; }
+      #movie p { float: left; text-align: center; }
+    </style>
+  </head>
+  <body>
+
+    <div id="movie">
+
+    </div>
+
+    <script src="test.json"></script>
+    <script>
+      var frag = document.createDocumentFragment();
+      var previous;
+
+      data.clips.forEach(function(clip) {
+        var p = document.createElement('p');
+        p.innerHTML = ((clip.date - data.started) / 1000 ) + 's<br>';
+
+        var img = document.createElement('img');
+        img.src = 'data:image/png;base64, ' + clip.imageData;
+        img.width = 300;
+
+        p.appendChild(img);
+        frag.appendChild(p);
+      });
+      document.getElementById('movie').appendChild(frag);
+    </script>
+  </body>
+</html>
