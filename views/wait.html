@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+  <title>Ghostbuster</title>
+</head>
+<body>
+  <h1>Waiting...</h1>
+
+  <script>
+
+    var xhr = new XMLHttpRequest();
+    xhr.onload = function() {
+      var id = JSON.parse(this.responseText).id;
+      document.location = '/report/' + id;
+    };
+
+    xhr.open('get', '/jobs/{{id}}');
+    xhr.send();
+
+  </script>
+</body>
+</html>

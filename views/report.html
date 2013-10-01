@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Film strip</title>
+    <style>
+      #strip-wrapper { overflow-x: scroll; }
+      #filmstrip p { float: left; text-align: center; }
+      #filmstrip img { border: 1px solid #000; margin: 0 5px; }
+    </style>
+  </head>
+  <body>
+    <div id="strip-wrapper">
+      <div id="filmstrip"></div>
+    </div>
+
+    <script src="/test.json"></script>
+    <script>
+      function diffSeconds(end, start) {
+        return (end - start) / 1000;
+      }
+
+      var STRIP_WIDTH = 300;
+      var strip = document.getElementById('filmstrip');
+      var frag = document.createDocumentFragment();
+      var previous;
+
+      strip.style.width = (data.clips.length * (STRIP_WIDTH + 15)) + 'px';
+
+      data.clips.forEach(function(clip) {
+        var p = document.createElement('p');
+        p.innerHTML = diffSeconds(clip.date, data.started) + 's<br>';
+
+        var img = document.createElement('img');
+        img.src = 'data:image/png;base64, ' + clip.imageData;
+        img.width = STRIP_WIDTH;
+
+        p.appendChild(img);
+        frag.appendChild(p);
+      });
+      strip.appendChild(frag);
+    </script>
+  </body>
+</html>
