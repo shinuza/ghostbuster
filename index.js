@@ -15,7 +15,7 @@ app.use(express.static(__dirname + '/public'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
-app.listen(3000);
+app.listen(3000, '0.0.0.0');
 
 app.get('/', function(req, res) {
   res.render('index');
