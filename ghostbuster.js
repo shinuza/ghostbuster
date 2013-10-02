@@ -23,7 +23,7 @@ page.onLoadStarted = function() {
     }
 
     previous = imageData;
-  }, 200);
+  }, 100);
 };
 
 
