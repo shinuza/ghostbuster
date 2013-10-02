@@ -26,14 +26,14 @@ page.onLoadStarted = function() {
   }, 200);
 };
 
+
 page.open(args[1], function(status) {
-  console.log('Done:', status);
   var json = JSON.stringify({
     started: started,
     clips: clips
   });
 
-  fs.write('test.json', 'var data = ' + json, 'w');
+  fs.write(args[4], 'var data = ' + json, 'w');
   clearInterval(interval);
   phantom.exit(1);
 });

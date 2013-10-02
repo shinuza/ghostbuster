@@ -1,4 +1,5 @@
 var util = require('util')
+  , fs = require('fs')
   , express = require('express')
   , spawn = require('child_process').spawn
   , swig = require('swig')
@@ -36,15 +37,28 @@ app.get('/jobs/:id', function(req, res) {
 
 app.post('/jobs', function(req, res) {
   var params = req.body
-    , jobID = jobs.register(function() {
-    return spawn(PHANTOMJS, [GHOSTBUSTER, params.url, params.width, params.height]);
+    , jobID = jobs.register(function(id) {
+    return spawn(PHANTOMJS, [GHOSTBUSTER, params.url, params.width, params.height, __dirname + '/work/' + id]);
   });
 
   return res.redirect('/wait/' + jobID);
 });
 
+app.get('/work/:id', function(req, res) {
+  var id = req.params.id;
+  fs.readFile(__dirname + '/work/' + id, function(err, buf) {
+    if(err) {
+      res
+        .status(500)
+        .end(util.format('console.error("Unable to find job with id: %s");', id));
+    } else {
+      res.end(buf);
+    }
+  });
+});
+
 app.get('/report/:id', function(req, res) {
-  res.render('report');
+  res.render('report', {id: req.params.id});
 });
 
 app.get('/wait/:id', function(req, res) {
