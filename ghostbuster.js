@@ -6,6 +6,7 @@ var clips = [];
 var started;
 var previous;
 
+page.viewportSize = { width: args[2], height: args[3] };
 page.clipRect = { width: args[2], height: args[3] };
 
 page.onLoadStarted = function() {
