@@ -1,3 +1,4 @@
+var args = require('system').args;
 var fs = require('fs');
 var page = require('webpage').create();
 var interval;
@@ -5,7 +6,7 @@ var clips = [];
 var started;
 var previous;
 
-page.clipRect = { width: 1280, height: 800 };
+page.clipRect = { width: args[2], height: args[3] };
 
 page.onLoadStarted = function() {
   started = +(new Date);
@@ -25,14 +26,14 @@ page.onLoadStarted = function() {
   }, 200);
 };
 
-page.open('http://www.lefigaro.fr/', function(status) {
-  console.log('Done:', status);
+
+page.open(args[1], function(status) {
   var json = JSON.stringify({
     started: started,
     clips: clips
   });
 
-  fs.write('test.json', 'var data = ' + json, 'w');
+  fs.write(args[4], 'var data = ' + json, 'w');
   clearInterval(interval);
   phantom.exit(1);
 });
