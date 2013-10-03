@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <link href="/css/extra.css" rel="stylesheet" media="screen">
     <title>Ghostbuster</title>
   </head>
   <body>
@@ -23,9 +24,11 @@
         </p>
         <!-- /URL -->
 
-        <button type="button" id="options_button" class="btn btn-default btn-lg">
-          Options <span class="glyphicon glyphicon-chevron-right"></span>
-        </button>
+        <div class="text-right mbm">
+          <button type="button" id="options_button" class="btn btn-link">
+            Options <span class="glyphicon glyphicon-chevron-right"></span>
+          </button>
+        </div>
 
         <div id="options">
           <hr>
@@ -73,8 +76,8 @@
           <!-- /SPOF -->
         </div>
 
-        <p class="clearfix">
-          <input type="submit"  data-loading-text="Loading..." class="btn btn-primary btn-lg pull-right" value="Validate">
+        <p>
+          <input type="submit"  data-loading-text="Loading..." class="btn btn-primary btn-lg" value="Validate">
         </p>
       </form>
     </div>
