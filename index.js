@@ -10,11 +10,13 @@ var jobs = new Jobs();
 const PHANTOMJS = 'phantomjs';
 const GHOSTBUSTER = 'ghostbuster.js';
 
+swig.setDefaults({ cache: false });
 app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
+app.set('view cache', false);
 app.listen(3000, '0.0.0.0');
 
 app.get('/', function(req, res) {
