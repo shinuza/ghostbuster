@@ -20,7 +20,7 @@
         <h2>Enter a website URL</h2>
         <p class="form-group">
           <label for="url" class="sr-only">URL</label>
-          <input type="text" class="form-control" name="url" id="url" placeholder="Enter URL">
+          <input type="text" class="form-control input-lg" name="url" id="url" placeholder="Enter URL" data-placement="left" data-content="Please specify an URL">
         </p>
         <!-- /URL -->
 
@@ -53,16 +53,18 @@
             </select>
           </p>
 
-          <div id="custom_viewport_size" class="row hide">
-            <strong class="col-lg-2">Custom size:</strong>
+          <div id="custom_viewport_size" class="form-group hide" data-placement="left" data-content="Please specify a width and height">
+            <p>
+              <strong>Custom size:</strong>
+            </p>
             <div class="col-lg-2">
-              <input id="width" class="form-control input-sm" type="text" name="width" placeholder="width"/>
+              <input id="width" class="form-control input-lg" type="text" name="width" placeholder="width"/>
             </div>
             <div class="col-lg-1 text-center">
-              <span class="h4">x</span>
+              <span class="h4 times">&times;</span>
             </div>
             <div class="col-lg-2">
-              <input id="height" class="form-control input-sm" type="text" name="height" placeholder="height"/>
+              <input id="height" class="form-control input-lg" type="text" name="height" placeholder="height"/>
             </div>
           </div>
           <!-- /VIEWPORT -->
