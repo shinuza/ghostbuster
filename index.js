@@ -43,7 +43,7 @@ app.post('/jobs', function(req, res) {
     return spawn(PHANTOMJS, [GHOSTBUSTER, params.url, params.width, params.height, __dirname + '/work/' + id]);
   });
 
-  return res.redirect('/wait/' + jobID);
+  return res.json(202, {id: jobID});
 });
 
 app.get('/work/:id', function(req, res) {
