@@ -1,25 +1,114 @@
 <!doctype html>
 <html>
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <title>Ghostbuster</title>
   </head>
   <body>
-  <form action="/jobs" method="post">
-    <fieldset>
-      <p>
-        <label for="url">URL</label>
-        <input type="text" name="url" id="url">
-      </p>
-      <p>
-        <label for="width">Width:</label>
-        <input type="text" name="width" id="width" value="1280">
-        <label for="height">Height:</label>
-        <input type="text" name="height" id="height" value="1024">
-      </p>
-      <p>
-        <input type="submit" value="Validate">
-      </p>
-    </fieldset>
-  </form>
+  <div class="jumbotron">
+    <div class="container">
+      <h1>Ghostbuster</h1>
+      <p>A tool to capture a filmstrip of the loading progress of a website</p>
+    </div>
+  </div>
+    <div class="row">
+      <form role="form" action="/jobs" method="post" class="col-md-6 col-md-offset-3 panel panel-default">
+        <!-- URL -->
+        <h2>Enter a website URL</h2>
+        <p class="form-group">
+          <label for="url" class="sr-only">URL</label>
+          <input type="text" class="form-control" name="url" id="url" placeholder="Enter URL">
+        </p>
+        <!-- /URL -->
+
+        <button type="button" id="options_button" class="btn btn-default btn-lg">
+          Options <span class="glyphicon glyphicon-chevron-right"></span>
+        </button>
+
+        <div id="options">
+          <hr>
+          <!-- VIEWPORT -->
+          <p class="form-group">
+            <label for="viewport_size">Viewport Size:</label>
+            <select class="form-control input-lg" id="viewport_size">
+              <option>2048x1536</option>
+              <option>1920x1080</option>
+              <option>1680x1050</option>
+              <option>1600x900</option>
+              <option>1440x900</option>
+              <option selected="selected">1366x768</option>
+              <option>1280x800</option>
+              <option>1024x768</option>
+              <option>768x1024</option>
+              <option>640x1136</option>
+              <option>640x960</option>
+              <option>480x800</option>
+              <option>320x480</option>
+              <option value="custom">Custom...</option>
+            </select>
+          </p>
+
+          <div id="custom_viewport_size" class="row hide">
+            <strong class="col-lg-2">Custom size:</strong>
+            <div class="col-lg-2">
+              <input id="width" class="form-control input-sm" type="text" name="width" placeholder="width"/>
+            </div>
+            <div class="col-lg-1 text-center">
+              <span class="h4">x</span>
+            </div>
+            <div class="col-lg-2">
+              <input id="height" class="form-control input-sm" type="text" name="height" placeholder="height"/>
+            </div>
+          </div>
+          <!-- /VIEWPORT -->
+
+          <!-- SPOF -->
+          <p class="form-group">
+            <label for="spof">SPOF:</label>
+            <textarea class="form-control input-lg" id="spof"></textarea>
+          </p>
+          <!-- /SPOF -->
+        </div>
+
+        <p class="clearfix">
+          <input type="submit"  data-loading-text="Loading..." class="btn btn-primary btn-lg pull-right" value="Validate">
+        </p>
+      </form>
+    </div>
+    <script src="/js/jquery.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script>
+      (function() {
+        var $width = $('#width')
+          , $height = $('#height')
+          , $viewport = $('#viewport_size')
+          , $customViewport = $('#custom_viewport_size')
+          , $options = $('#options')
+          , $optionsButton = $('#options_button')
+          , $optionsChevron = $optionsButton.find('span');
+
+        $options.hide();
+        $optionsButton.click(function() {
+          $optionsChevron.toggleClass('glyphicon-chevron-down');
+          $options.slideToggle();
+        });
+
+        $viewport.change(function() {
+          if(this.value == 'custom') {
+            $customViewport.removeClass('hide');
+          } else {
+            $customViewport.addClass('hide');
+            var dimension = this.value.split('x');
+            $width.val(dimension[0]);
+            $height.val(dimension[1]);
+          }
+        });
+
+        $viewport.change();
+
+      }());
+    </script>
   </body>
 </html>
