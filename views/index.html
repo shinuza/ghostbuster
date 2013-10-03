@@ -1,25 +1,79 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Ghostbuster</title>
-  </head>
-  <body>
-  <form action="/jobs" method="post">
-    <fieldset>
-      <p>
-        <label for="url">URL</label>
-        <input type="text" name="url" id="url">
+{% extends "./layout.html" %}
+
+{% block content %}
+<div class="jumbotron">
+  <div class="container">
+    <h1>Ghostbuster</h1>
+    <p>A tool to capture a filmstrip of the loading progress of a website</p>
+  </div>
+</div>
+<div class="row">
+  <form role="form" class="col-md-6 col-md-offset-3 panel panel-default">
+    <!-- URL -->
+    <h2>Enter a website URL</h2>
+    <p class="form-group">
+      <label for="url" class="sr-only">URL</label>
+      <input type="text" class="form-control input-lg" name="url" id="url" placeholder="Enter URL" data-placement="left" data-content="Please specify an URL" data-trigger="manual">
+    </p>
+    <!-- /URL -->
+
+    <div class="text-right mbm">
+      <button type="button" id="options_button" class="btn btn-link">
+        Options <span class="glyphicon glyphicon-chevron-right"></span>
+      </button>
+    </div>
+
+    <div id="options">
+      <hr>
+      <!-- VIEWPORT -->
+      <p class="form-group">
+        <label for="viewport_size">Viewport Size:</label>
+        <select class="form-control input-lg" id="viewport_size">
+          <option>2048x1536</option>
+          <option>1920x1080</option>
+          <option>1680x1050</option>
+          <option>1600x900</option>
+          <option>1440x900</option>
+          <option selected="selected">1366x768</option>
+          <option>1280x800</option>
+          <option>1024x768</option>
+          <option>768x1024</option>
+          <option>640x1136</option>
+          <option>640x960</option>
+          <option>480x800</option>
+          <option>320x480</option>
+          <option value="custom">Custom...</option>
+        </select>
       </p>
-      <p>
-        <label for="width">Width:</label>
-        <input type="text" name="width" id="width" value="1280">
-        <label for="height">Height:</label>
-        <input type="text" name="height" id="height" value="1024">
+
+      <div id="custom_viewport_size" class="form-group hide clearfix" data-placement="left" data-content="Please specify a width and height" data-trigger="manual">
+        <p>
+          <strong>Custom size:</strong>
+        </p>
+        <div class="col-lg-2">
+          <input id="width" class="form-control input-lg" type="text" name="width" placeholder="width"/>
+        </div>
+        <div class="col-lg-1 text-center">
+          <span class="h4 times">&times;</span>
+        </div>
+        <div class="col-lg-2">
+          <input id="height" class="form-control input-lg" type="text" name="height" placeholder="height"/>
+        </div>
+      </div>
+      <!-- /VIEWPORT -->
+
+      <!-- SPOF -->
+      <p class="form-group hide">
+        <label for="spof">SPOF:</label>
+        <textarea class="form-control input-lg" id="spof"></textarea>
+        <span class="help-block">Simulate failure of specified domains. One host per line.</span>
       </p>
-      <p>
-        <input type="submit" value="Validate">
-      </p>
-    </fieldset>
+      <!-- /SPOF -->
+    </div>
+
+    <p class="clearfix">
+      <input type="submit" data-loading-text="Loading..." class="btn btn-primary btn-lg" value="Validate">
+    </p>
   </form>
-  </body>
-</html>
+</div>
+{% endblock %}

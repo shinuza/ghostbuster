@@ -1,0 +1,6 @@
+.mbm { margin-bottom: 10px; }
+.times { line-height: 45px; font-size: 30px; color: #aaa; }
+
+.strip { overflow-x: scroll; }
+.strip p { float: left; text-align: center; }
+.strip img { border: 1px solid #000; margin: 0 5px; }
