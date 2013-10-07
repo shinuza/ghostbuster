@@ -34,6 +34,8 @@ page.open(args[1], function() {
   capture();
   var json = JSON.stringify({
     started: started,
+    loaded: +(new Date) - started,
+    url: args[1],
     clips: clips
   });
 
