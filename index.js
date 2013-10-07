@@ -9,6 +9,7 @@ var util = require('util')
 var jobs = new Jobs();
 const PHANTOMJS = 'phantomjs';
 const GHOSTBUSTER = 'ghostbuster.js';
+const WORK_DIR = __dirname + '/work/';
 
 swig.setDefaults({ cache: false });
 app.use(express.bodyParser());
@@ -48,7 +49,7 @@ app.post('/jobs', function(req, res) {
 
 app.get('/work/:id', function(req, res) {
   var id = req.params.id;
-  fs.readFile(__dirname + '/work/' + id, function(err, buf) {
+  fs.readFile(path.join(WORK_DIR, id), function(err, buf) {
     if(err) {
       res
         .status(500)
@@ -59,7 +60,7 @@ app.get('/work/:id', function(req, res) {
   });
 });
 
-app.get('/report/:id', function(req, res) {
+app.get('/reports/:id', function(req, res) {
   res.render('report', {id: req.params.id});
 });
 
