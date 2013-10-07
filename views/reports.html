@@ -1,19 +1,24 @@
 {% extends "layout.html" %}
 
 {% block content %}
-  <div class="col-md-offset-4 col-md-4">
-    {% for entry in entries %}
-    <div class="media">
-      <a class="pull-left" href="/reports/{{entry.id}}">
-        <img src="/{{entry.thumbnail}}" width="300">
-      </a>
-      <div class="media-body">
-        <h4 class="media-heading">{{ entry.url }}</h4>
-        <ul>
-          <li><strong>Loaded: </strong> {{entry.loaded / 1000}} s</li>
-        </ul>
-      </div>
-    </div>
-    {% endfor %}
+<ul class="nav nav-tabs mbm">
+  <li><a href="/">Home</a></li>
+  <li class="active"><a href="/reports">Reports</a></li>
+</ul>
+
+<h2>{{entries.length}} reports</h2>
+{% for entry in entries %}
+<div class="media">
+  <a class="pull-left" href="/reports/{{entry.id}}">
+    <img src="/{{entry.thumbnail}}" class="thumbnail">
+  </a>
+  <div class="media-body">
+    <h4 class="media-heading">{{ entry.url }}</h4>
+    <ul>
+      <li><strong>Date: </strong> {{entry.started|date('Y-m-d H:m')}}</li>
+      <li><strong>Loaded: </strong> {{entry.loaded / 1000}} s</li>
+    </ul>
   </div>
+</div>
+{% endfor %}
 {% endblock %}
