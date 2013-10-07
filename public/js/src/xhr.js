@@ -9,7 +9,7 @@
 
   $doc.on('job:accepted', function(e, data) {
     $.getJSON('/jobs/' + data.id).then(function(json) {
-      document.location = '/report/' + json.id;
+      document.location = '/reports/' + json.id;
     });
   });
 }(window, document));

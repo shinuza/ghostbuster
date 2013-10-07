@@ -28,6 +28,10 @@
         dataType: 'json',
         contentType : 'application/json'
       });
+    },
+
+    diffSeconds: function diffSeconds(end, start) {
+      return (end - start) / 1000;
     }
 
   };

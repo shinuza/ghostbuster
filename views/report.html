@@ -1,36 +1,20 @@
 {% extends "./layout.html" %}
 
 {% block content %}
-    <div id="strip-wrapper" class="strip">
-      <div id="filmstrip"></div>
-    </div>
+<ul class="nav nav-tabs mbm">
+  <li><a href="/">Home</a></li>
+  <li><a href="/reports">Reports</a></li>
+</ul>
+
+
+<div id="strip-wrapper" class="strip">
+  <div id="filmstrip"></div>
+</div>
 {% endblock %}
 
 {% block js %}
-<script src="/work/{{id}}"></script>
 <script>
-  function diffSeconds(end, start) {
-    return (end - start) / 1000;
-  }
-
-  var STRIP_WIDTH = 300;
-  var strip = document.getElementById('filmstrip');
-  var frag = document.createDocumentFragment();
-  var previous;
-
-  strip.style.width = (data.clips.length * (STRIP_WIDTH + 15)) + 'px';
-
-  data.clips.forEach(function(clip) {
-    var p = document.createElement('p');
-    p.innerHTML = diffSeconds(clip.date, data.started) + 's<br>';
-
-    var img = document.createElement('img');
-    img.src = 'data:image/png;base64, ' + clip.imageData;
-    img.width = STRIP_WIDTH;
-
-    p.appendChild(img);
-    frag.appendChild(p);
-  });
-  strip.appendChild(frag);
+  var config = {id: '{{id}}'};
 </script>
+<script src="/js/src/report.js"></script>
 {% endblock %}

@@ -39,7 +39,7 @@ page.open(args[1], function() {
     clips: clips
   });
 
-  fs.write(args[4], 'var data = ' + json, 'w');
+  fs.write(args[4] + '.json', json, 'w');
   clearInterval(interval);
   phantom.exit(1);
 });

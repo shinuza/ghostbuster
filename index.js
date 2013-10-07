@@ -1,18 +1,26 @@
 var util = require('util')
   , fs = require('fs')
+  , path = require('path')
   , express = require('express')
   , spawn = require('child_process').spawn
   , swig = require('swig')
+
   , Jobs = require('./lib/jobs.js')
+  , Optimizer = require('./lib/report-optimizer.js')
   , app = express();
 
-var jobs = new Jobs();
 const PHANTOMJS = 'phantomjs';
 const GHOSTBUSTER = 'ghostbuster.js';
+const WORK_DIR = __dirname + '/work/';
+const CACHE_DIR = __dirname + '/cache/';
+
+var jobs = new Jobs();
+var optimizer = new Optimizer(WORK_DIR);
 
 swig.setDefaults({ cache: false });
 app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
+app.use('/cache', express.static(CACHE_DIR));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
@@ -48,7 +56,7 @@ app.post('/jobs', function(req, res) {
 
 app.get('/work/:id', function(req, res) {
   var id = req.params.id;
-  fs.readFile(__dirname + '/work/' + id, function(err, buf) {
+  fs.readFile(path.join(WORK_DIR, id + '.json'), function(err, buf) {
     if(err) {
       res
         .status(500)
@@ -59,8 +67,19 @@ app.get('/work/:id', function(req, res) {
   });
 });
 
-app.get('/report/:id', function(req, res) {
+app.get('/reports/:id', function(req, res) {
   res.render('report', {id: req.params.id});
+});
+
+app.get('/reports', function(req, res) {
+  optimizer.dump();
+
+  fs.readdir(CACHE_DIR, function(err, entries) {
+    entries = entries.map(function(entry) {
+      return require(path.join(CACHE_DIR, entry, 'report.json'));
+    });
+    res.render('reports', {entries: entries});
+  });
 });
 
 app.get('/wait/:id', function(req, res) {
