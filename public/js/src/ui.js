@@ -1,5 +1,6 @@
 (function(gb) {
   var $form = $('form')
+    , $validate = $('#validate')
     , $url = $('#url')
     , $width = $('#width')
     , $height = $('#height')
@@ -39,6 +40,7 @@
 
     if(hasUrl && hasSizes) {
       $(document).trigger('form:submit', data);
+      $validate.button('loading');
     }
 
     return false;
@@ -48,4 +50,5 @@
   $viewport.change();
   $url.popover();
   $customViewport.popover();
+  $validate.button();
 }(window.gb));
