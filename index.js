@@ -41,6 +41,7 @@ app.get('/jobs/:id', function(req, res) {
 
   jobs.on('finished:' + id, function() {
     console.log('done', id);
+    optimizer.dump();
     res.json({id: id});
   });
 });
