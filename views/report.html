@@ -6,15 +6,20 @@
   <li><a href="/reports">Reports</a></li>
 </ul>
 
+<h1>{{url}}</h1>
+<ul>
+  <li><strong>Date: </strong> {{started|date('Y-m-d H:m')}}</li>
+  <li><strong>Loaded: </strong> {{loaded / 1000}} s</li>
+</ul>
 
-<div id="strip-wrapper" class="strip">
-  <div id="filmstrip"></div>
+<div class="strip">
+  <div class="mask" style="width:{{ 320 * clips.length }}px">
+    {% for clip in clips %}
+      <div>
+        <p>{{(clip.date - started) / 1000}} s</p>
+        <img src="/{{clip.path}}" width="300">
+      </div>
+    {% endfor %}
+  </div>
 </div>
-{% endblock %}
-
-{% block js %}
-<script>
-  var config = {id: '{{id}}'};
-</script>
-<script src="/js/src/report.js"></script>
 {% endblock %}
