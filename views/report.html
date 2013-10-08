@@ -6,18 +6,15 @@
   <li><a href="/reports">Reports</a></li>
 </ul>
 
-<h1>{{url}}</h1>
-<ul>
-  <li><strong>Date: </strong> {{started|date('Y-m-d H:m')}}</li>
-  <li><strong>Loaded: </strong> {{loaded / 1000}} s</li>
-  <li><strong>Resolution: </strong> {{viewport.width}} &times; {{viewport.height}}</li>
-</ul>
+<h1>{{report.url}}</h1>
+
+{% include "./includes/properties.html" %}
 
 <div class="strip">
-  <div class="mask" style="width:{{ 320 * clips.length }}px">
-    {% for clip in clips %}
+  <div class="mask" style="width:{{ 320 * report.clips.length }}px">
+    {% for clip in report.clips %}
       <div>
-        <p>{{(clip.date - started) / 1000}} s</p>
+        <p>{{(clip.date - report.started) / 1000}} s</p>
         <img src="/{{clip.path}}" width="300">
       </div>
     {% endfor %}

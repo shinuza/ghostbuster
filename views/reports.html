@@ -6,19 +6,15 @@
   <li class="active"><a href="/reports">Reports</a></li>
 </ul>
 
-<h2>{{entries.length}} reports</h2>
-{% for entry in entries %}
+<h2>{{reports.length}} reports</h2>
+{% for report in reports %}
 <div class="media">
-  <a class="pull-left" href="/reports/{{entry.id}}">
-    <img src="/{{entry.thumbnail.path}}" class="thumbnail">
+  <a class="pull-left" href="/reports/{{report.id}}">
+    <img src="/{{report.thumbnail.path}}" class="thumbnail">
   </a>
   <div class="media-body">
-    <h4 class="media-heading">{{ entry.url }}</h4>
-    <ul>
-      <li><strong>Date: </strong> {{entry.started|date('Y-m-d H:m')}}</li>
-      <li><strong>Loaded: </strong> {{entry.loaded / 1000}} s</li>
-      <li><strong>Resolution: </strong> {{entry.viewport.width}} &times; {{entry.viewport.height}}</li>
-    </ul>
+    <h4 class="media-heading">{{ report.url }}</h4>
+    {% include "./includes/properties.html" with {report: report} %}
   </div>
 </div>
 {% endfor %}

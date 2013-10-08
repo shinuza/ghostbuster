@@ -63,7 +63,7 @@ app.get('/reports/:id', function(req, res) {
   fs.exists(reportPath, function(exists) {
     if(exists) {
       var report = require(reportPath);
-      res.render('report', report);
+      res.render('report', {report: report});
     } else {
       res.status(404).render('404');
     }
@@ -73,14 +73,14 @@ app.get('/reports/:id', function(req, res) {
 app.get('/reports', function(req, res) {
   optimizer.dump();
 
-  fs.readdir(CACHE_DIR, function(err, entries) {
-    if(!err && entries.length) {
-      entries = entries.map(function(entry) {
+  fs.readdir(CACHE_DIR, function(err, reports) {
+    if(!err && reports.length) {
+      reports = reports.map(function(entry) {
         return require(path.join(CACHE_DIR, entry, 'report.json'));
       });
     }
 
-    res.render('reports', {entries: entries || []});
+    res.render('reports', { reports: reports || []});
   });
 });
 
