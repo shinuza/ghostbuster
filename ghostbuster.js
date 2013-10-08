@@ -4,8 +4,10 @@ var page = require('webpage').create();
 var interval;
 var previous;
 
-page.viewportSize = { width: args[2], height: args[3] };
-page.clipRect = { width: args[2], height: args[3] };
+var viewport = { width: args[2], height: args[3] };
+
+page.viewportSize = viewport;
+page.clipRect = viewport;
 
 var clips = [];
 var started;
@@ -36,7 +38,8 @@ page.open(args[1], function() {
     started: started,
     loaded: +(new Date) - started,
     url: args[1],
-    clips: clips
+    clips: clips,
+    viewport: viewport
   });
 
   fs.write(args[4] + '.json', json, 'w');
