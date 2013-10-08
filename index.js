@@ -73,10 +73,13 @@ app.get('/reports', function(req, res) {
   optimizer.dump();
 
   fs.readdir(CACHE_DIR, function(err, entries) {
-    entries = entries.map(function(entry) {
-      return require(path.join(CACHE_DIR, entry, 'report.json'));
-    });
-    res.render('reports', {entries: entries});
+    if(!err && entries.length) {
+      entries = entries.map(function(entry) {
+        return require(path.join(CACHE_DIR, entry, 'report.json'));
+      });
+    }
+
+    res.render('reports', {entries: entries || []});
   });
 });
 
