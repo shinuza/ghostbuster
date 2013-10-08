@@ -10,7 +10,7 @@
 {% for entry in entries %}
 <div class="media">
   <a class="pull-left" href="/reports/{{entry.id}}">
-    <img src="/{{entry.thumbnail}}" class="thumbnail">
+    <img src="/{{entry.thumbnail.path}}" class="thumbnail">
   </a>
   <div class="media-body">
     <h4 class="media-heading">{{ entry.url }}</h4>
