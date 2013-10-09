@@ -4,6 +4,7 @@ var util = require('util')
   , express = require('express')
   , spawn = require('child_process').spawn
   , swig = require('swig')
+  , archiver = require('archiver')
 
   , Jobs = require('./lib/jobs.js')
   , Optimizer = require('./lib/report-optimizer.js')
@@ -20,7 +21,7 @@ var optimizer = new Optimizer(WORK_DIR);
 swig.setDefaults({ cache: false });
 app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
-app.use('/cache', express.static(CACHE_DIR));
+app.use(express.static(CACHE_DIR));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');
@@ -57,17 +58,12 @@ app.post('/jobs', function(req, res) {
 
 
 app.get('/reports/:id', function(req, res) {
-  var id = req.params.id
-    , reportPath  = path.join(CACHE_DIR, id, 'report.json');
-
-  fs.exists(reportPath, function(exists) {
-    if(exists) {
-      var report = require(reportPath);
-      res.render('report', {report: report});
-    } else {
-      res.status(404).render('404');
-    }
-  });
+  var report = getReport(req.params.id);
+  if(report) {
+    res.render('report', {report: report});
+  } else {
+    res.status(404).render('404');
+  }
 });
 
 app.get('/reports', function(req, res) {
@@ -76,7 +72,7 @@ app.get('/reports', function(req, res) {
   fs.readdir(CACHE_DIR, function(err, reports) {
     if(!err && reports.length) {
       reports = reports.map(function(entry) {
-        return require(path.join(CACHE_DIR, entry, 'report.json'));
+        return getReport(entry);
       });
     }
 
@@ -87,3 +83,39 @@ app.get('/reports', function(req, res) {
 app.get('/wait/:id', function(req, res) {
   res.render('wait', {id: req.params.id});
 });
+
+app.get('/export/:id', function(req, res) {
+  var id = req.params.id
+    , report = getReport(id)
+    , reportDir = path.join('cache', id);
+
+  if(report) {
+    res.render('export', {report: report, exporting: true}, function(err, html) {
+      if(err) throw err;
+
+      var archive = archiver.create('zip');
+      archive.pipe(res);
+      archive.append(new Buffer(html), { name: 'index.html' });
+      report.clips.forEach(function(clip) {
+        var basename = path.basename(clip.path);
+        archive.append(fs.createReadStream(path.join(reportDir, clip.path)), { name: basename });
+      });
+      archive.finalize(function(err, bytes) {
+        if(err) throw err;
+        console.log('Wrote %d bytes', bytes);
+      });
+    });
+  } else {
+    res.status(404).render('404');
+  }
+});
+
+function getReport(id) {
+  var report;
+  try {
+    report = require(path.join(CACHE_DIR, id, 'report.json'));
+  } catch(e) {
+    report = null;
+  }
+  return report;
+}

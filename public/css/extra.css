@@ -1,4 +1,5 @@
 .mbm { margin-bottom: 10px; }
+.man { margin: 0; }
 .times { line-height: 45px; font-size: 30px; color: #aaa; }
 
 .strip { overflow-x: scroll; margin-bottom: 50px; }
