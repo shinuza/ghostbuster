@@ -1,0 +1,17 @@
+{% set prefix = './' %}
+{% if not exporting %}
+{% set prefix = '/' + report.id + '/' %}
+{% endif %}
+
+<div class="strip">
+  <div class="mask" style="width:{{ 320 * report.clips.length }}px">
+    {% for clip in report.clips %}
+    <div>
+      <p>{{(clip.date - report.started) / 1000}} s</p>
+      <a href="{{prefix}}{{clip.path}}">
+        <img src="{{prefix}}{{clip.path}}" width="300">
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</div>

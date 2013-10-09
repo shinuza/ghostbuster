@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <title>Report for {{report.url}}</title>
+    <style>
+      .strip { overflow-x: scroll; margin-bottom: 50px; }
+      .strip .mask { padding-bottom: 15px; }
+      .strip div { float: left; text-align: center; }
+      .strip img { border: 1px solid #000; margin: 0 5px; }
+
+      .thumbnail { max-width: 300px; border: 1px solid #ccc; display: block; }
+    </style>
+  </head>
+  <body>
+
+  <h1>{{report.url}}</h1>
+
+  {% include "./includes/properties.html" %}
+
+  {% include "./includes/strip.html" %}
+
+  </body>
+</html>
