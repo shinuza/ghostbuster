@@ -57,17 +57,12 @@ app.post('/jobs', function(req, res) {
 
 
 app.get('/reports/:id', function(req, res) {
-  var id = req.params.id
-    , reportPath  = path.join(CACHE_DIR, id, 'report.json');
-
-  fs.exists(reportPath, function(exists) {
-    if(exists) {
-      var report = require(reportPath);
-      res.render('report', {report: report});
-    } else {
-      res.status(404).render('404');
-    }
-  });
+  var report = getReport(req.params.id);
+  if(report) {
+    res.render('report', {report: report});
+  } else {
+    res.status(404).render('404');
+  }
 });
 
 app.get('/reports', function(req, res) {
@@ -76,7 +71,7 @@ app.get('/reports', function(req, res) {
   fs.readdir(CACHE_DIR, function(err, reports) {
     if(!err && reports.length) {
       reports = reports.map(function(entry) {
-        return require(path.join(CACHE_DIR, entry, 'report.json'));
+        return getReport(entry);
       });
     }
 
@@ -87,3 +82,13 @@ app.get('/reports', function(req, res) {
 app.get('/wait/:id', function(req, res) {
   res.render('wait', {id: req.params.id});
 });
+
+function getReport(id) {
+  var report;
+  try {
+    report = require(path.join(CACHE_DIR, id, 'report.json'));
+  } catch(e) {
+    report = null;
+  }
+  return report;
+}
