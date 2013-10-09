@@ -15,7 +15,9 @@
     {% for clip in report.clips %}
       <div>
         <p>{{(clip.date - report.started) / 1000}} s</p>
-        <img src="/{{clip.path}}" width="300">
+        <a href="/{{clip.path}}">
+          <img src="/{{clip.path}}" width="300">
+        </a>
       </div>
     {% endfor %}
   </div>
