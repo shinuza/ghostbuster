@@ -20,7 +20,7 @@ var optimizer = new Optimizer(WORK_DIR);
 swig.setDefaults({ cache: false });
 app.use(express.bodyParser());
 app.use(express.static(__dirname + '/public'));
-app.use('/cache', express.static(CACHE_DIR));
+app.use(express.static(CACHE_DIR));
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views', __dirname + '/views');

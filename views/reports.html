@@ -10,7 +10,7 @@
 {% for report in reports %}
 <div class="media">
   <a class="pull-left" href="/reports/{{report.id}}">
-    <img src="/{{report.thumbnail.path}}" class="thumbnail">
+    <img src="/{{report.id}}/{{report.thumbnail.path}}" class="thumbnail">
   </a>
   <div class="media-body">
     <h4 class="media-heading">{{ report.url }}</h4>
