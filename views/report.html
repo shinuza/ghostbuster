@@ -6,15 +6,20 @@
   <li><a href="/reports">Reports</a></li>
 </ul>
 
+<h1>{{report.url}}</h1>
 
-<div id="strip-wrapper" class="strip">
-  <div id="filmstrip"></div>
+{% include "./includes/properties.html" %}
+
+<div class="strip">
+  <div class="mask" style="width:{{ 320 * report.clips.length }}px">
+    {% for clip in report.clips %}
+      <div>
+        <p>{{(clip.date - report.started) / 1000}} s</p>
+        <a href="/{{clip.path}}">
+          <img src="/{{clip.path}}" width="300">
+        </a>
+      </div>
+    {% endfor %}
+  </div>
 </div>
-{% endblock %}
-
-{% block js %}
-<script>
-  var config = {id: '{{id}}'};
-</script>
-<script src="/js/src/report.js"></script>
 {% endblock %}

@@ -41,6 +41,7 @@ app.get('/jobs/:id', function(req, res) {
 
   jobs.on('finished:' + id, function() {
     console.log('done', id);
+    optimizer.dump();
     res.json({id: id});
   });
 });
@@ -54,31 +55,32 @@ app.post('/jobs', function(req, res) {
   return res.json(202, {id: jobID});
 });
 
-app.get('/work/:id', function(req, res) {
-  var id = req.params.id;
-  fs.readFile(path.join(WORK_DIR, id + '.json'), function(err, buf) {
-    if(err) {
-      res
-        .status(500)
-        .end(util.format('console.error("Unable to find job with id: %s");', id));
-    } else {
-      res.end(buf);
-    }
-  });
-});
 
 app.get('/reports/:id', function(req, res) {
-  res.render('report', {id: req.params.id});
+  var id = req.params.id
+    , reportPath  = path.join(CACHE_DIR, id, 'report.json');
+
+  fs.exists(reportPath, function(exists) {
+    if(exists) {
+      var report = require(reportPath);
+      res.render('report', {report: report});
+    } else {
+      res.status(404).render('404');
+    }
+  });
 });
 
 app.get('/reports', function(req, res) {
   optimizer.dump();
 
-  fs.readdir(CACHE_DIR, function(err, entries) {
-    entries = entries.map(function(entry) {
-      return require(path.join(CACHE_DIR, entry, 'report.json'));
-    });
-    res.render('reports', {entries: entries});
+  fs.readdir(CACHE_DIR, function(err, reports) {
+    if(!err && reports.length) {
+      reports = reports.map(function(entry) {
+        return require(path.join(CACHE_DIR, entry, 'report.json'));
+      });
+    }
+
+    res.render('reports', { reports: reports || []});
   });
 });
 
